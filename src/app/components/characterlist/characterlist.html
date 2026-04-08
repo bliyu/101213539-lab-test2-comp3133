@@ -1,0 +1,42 @@
+<section class="page">
+  <h1>Harry Potter Characters</h1>
+
+  <app-characterfilter (houseChanged)="onHouseChanged($event)"></app-characterfilter>
+
+  @if (loading()) {
+    <div class="center">
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
+  }
+
+  @if (!loading() && errorMessage()) {
+    <p class="error">{{ errorMessage() }}</p>
+  }
+
+  @if (!loading() && !errorMessage()) {
+    <div class="grid">
+      @for (character of characters(); track character.id) {
+        <mat-card class="character-card">
+          @if (character.image) {
+            <img mat-card-image [src]="character.image" [alt]="character.name">
+          } @else {
+            <div class="no-image">No Image</div>
+          }
+
+          <mat-card-content>
+            <h2>{{ character.name }}</h2>
+            <p [class]="character.house | houseColor">
+              {{ character.house || 'No House' }}
+            </p>
+          </mat-card-content>
+
+          <mat-card-actions>
+            <a mat-raised-button color="primary" [routerLink]="['/details', character.id]">
+              View Details
+            </a>
+          </mat-card-actions>
+        </mat-card>
+      }
+    </div>
+  }
+</section>

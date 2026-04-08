@@ -1,0 +1,47 @@
+<section class="details-page">
+  <a mat-raised-button color="primary" routerLink="/">Back to List</a>
+
+  @if (loading()) {
+    <div class="center">
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
+  }
+
+  @if (!loading() && character(); as c) {
+    <mat-card class="details-card">
+      <div class="details-layout">
+        <div class="image-wrap">
+          @if (c.image) {
+            <img [src]="c.image" [alt]="c.name">
+          } @else {
+            <div class="no-image">No Image</div>
+          }
+        </div>
+
+        <div class="info">
+          <h1>{{ c.name }}</h1>
+          <p><strong>Species:</strong> {{ c.species || 'N/A' }}</p>
+          <p><strong>House:</strong> <span [class]="c.house | houseColor">{{ c.house || 'No House' }}</span></p>
+          <p><strong>Ancestry:</strong> {{ c.ancestry || 'N/A' }}</p>
+          <p><strong>Actor:</strong> {{ c.actor || 'N/A' }}</p>
+
+          @switch (c.wizard) {
+            @case (true) {
+              <p><strong>Wizard:</strong> Yes</p>
+            }
+            @default {
+              <p><strong>Wizard:</strong> No</p>
+            }
+          }
+
+          <div class="wand-box">
+            <h3>Wand</h3>
+            <p><strong>Wood:</strong> {{ c.wand?.wood || 'N/A' }}</p>
+            <p><strong>Core:</strong> {{ c.wand?.core || 'N/A' }}</p>
+            <p><strong>Length:</strong> {{ c.wand?.length ?? 'N/A' }}</p>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  }
+</section>
